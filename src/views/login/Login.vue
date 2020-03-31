@@ -30,8 +30,15 @@
         },
         methods: {
             submitLogin() {
+
+
+                // this.jquery.post("http://localhost:8080/zigar/login",this.loginModel,function(r){
+                //     console.log(r);
+                // });
+                //
+                //
                 this.request.axiosLogin(this, this.loginModel, (data) => {
-                    this.util.setToken(data);
+                    this.tokenUtil.setToken(data);
                     this.$router.push('/')
                 });
             }

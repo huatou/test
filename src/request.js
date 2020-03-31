@@ -2,16 +2,17 @@ function config(vue, params, data) {
     return {
         validateStatus(status) {
             if (status == 403) {
-                vue.util.clearToken();
+                vue.tokenUtil.clearToken();
                 vue.$router.push("/login-main/login");
             }
             return status < 500; // 状态码在大于或等于500时才会 reject
         },
         headers: {
-            "token": vue.util.getToken()
+            "token": vue.tokenUtil.getToken()
         },
         params: params,
-        data: data,
+        data: data
+        ,
         proxyTable:
             vue.config.IS_DEV ?
                 {
@@ -83,17 +84,18 @@ function axiosDeleteData(vue, url, data, onSuccess, onError) {
 }
 
 
-const LOGIN = "login";
-const LOGOUT = "logout";
-const REGISTER = "user/register";
+const LOGIN = "zigar/login";
+const LOGOUT = "zigar/logout";
+const REGISTER = "zigar/user/register";
 
-const USER = "user";
-const USER_INFO = "user/info";
-const CHANGE_PWD = "user/change-pwd";
-const USER_AUTH = "user/auth";
-const ROLE_AUTH = "role/auth";
-const ROLE_USER = "role-user";
-const ROLE_USER_LIST = "role-user/list";
+const USER = "zigar/user";
+const USER_INFO = "zigar/user/info";
+const CHANGE_PWD = "zigar/user/change-pwd";
+const USER_AUTH = "zigar/user/auth";
+const ROLE_AUTH = "zigar/role/auth";
+const ROLE_USER = "zigar/role-user";
+const ROLE_USER_USERS = "zigar/role-user/users";
+const ROLE_USER_LIST = "zigar/role-user/list";
 
 const MODULE = "module";
 const ACTION = "action";
@@ -147,7 +149,7 @@ export default {
         axiosPostData(vue, ROLE_AUTH, module, onSuccess, onError);
     },
     axiosRoleUserGet(vue, params, onSuccess, onError) {
-        axiosGetData(vue, ROLE_USER, params, onSuccess, onError);
+        axiosGetData(vue, ROLE_USER_USERS, params, onSuccess, onError);
     },
     axiosRoleUserPost(vue, module, onSuccess, onError) {
         axiosPostData(vue, ROLE_USER_LIST, module, onSuccess, onError);

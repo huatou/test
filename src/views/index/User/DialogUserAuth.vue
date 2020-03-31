@@ -6,22 +6,24 @@
             </el-form-item>
             <div style="border: 1px solid #cccccc;border-bottom: none" v-loading="tableIsLoading">
                 <div style="border-bottom: 1px solid #cccccc;padding: 10px"
-                     v-for="(moduleItem,moduleItemIndex ) in list" :key="moduleItemIndex">
-                    <label class="moduleNameLabel">{{moduleItem.moduleName}}</label>
+                     v-for="(moduleItem,moduleItemIndex) in list"
+                     :key="moduleItemIndex">
+                    <label class="moduleNameLabel">{{moduleItem.name}}</label>
                     <el-checkbox v-if="!moduleItem.children || moduleItem.children.length == 0"
-                                 v-for="(moduleActionItem ,moduleActionItemIndex) in moduleItem.moduleActionList"
-                                 :label="moduleActionItem.actionName"
-                                 :key="moduleActionItemIndex"
-                                 v-model="moduleActionItem.isChecked"></el-checkbox>
-                    <div v-for="(moduleChildItem,moduleChildItemIndex ) in moduleItem.children"
+                                 v-for="(actionItem,actionItemIndex) in moduleItem.actionList"
+                                 :label="actionItem.actionName"
+                                 :key="actionItemIndex"
+                                 value="true"
+                                 v-model="actionItem.isChecked"></el-checkbox>
+                    <div v-for="(moduleChildItem,moduleChildItemIndex) in moduleItem.children"
                          :key="moduleChildItemIndex">
                         <label class="moduleNameLabel"
-                               style="font-size: 12px">>>{{moduleChildItem.moduleName}}</label>
+                               style="font-size: 12px">>>{{moduleChildItem.name}}</label>
                         <el-checkbox
-                                v-for="(moduleActionItem ,moduleActionItemIndex) in moduleChildItem.moduleActionList"
-                                :label="moduleActionItem.actionName"
-                                :key="moduleActionItemIndex"
-                                v-model="moduleActionItem.isChecked"></el-checkbox>
+                                v-for="(childActionItem,childActionItemIndex) in moduleChildItem.actionList"
+                                :label="childActionItem.actionName"
+                                :key="childActionItemIndex"
+                                v-model="childActionItem.isChecked"></el-checkbox>
                     </div>
                 </div>
             </div>
@@ -46,7 +48,7 @@
                 this.request.axiosGetUser(this, params, (data) => {
                     if (data) {
                         this.jquery.extend(this.row, data);
-                        this.getModuleActionList();
+                        this.getModuleList();
                     } else {
                         alert("获取用户权限失败")
                     }
@@ -55,45 +57,42 @@
             moduleActionListFilter(moduleList) {
                 moduleList.forEach(moduleItem => {
                     if (!moduleItem.children || moduleItem.children.length == 0) {
-                        moduleItem.moduleActionList.forEach(moduleActionItem => {
-                            this.row.moduleActionList.forEach(userModuleActionItem => {
-                                if (moduleActionItem.moduleActionId == userModuleActionItem.moduleActionId) {
-                                    moduleActionItem.isChecked = true;
-                                    return;
-                                }
-                            });
+                        //判断该模块下的操作权限用户是否存在
+                        moduleItem.actionList.forEach(actionItem => {
+                            //表示moduleActionList拥有符合提交的数据
+                            let isExits = this.row.moduleActionList.some(moduleActionItem => moduleActionItem.moduleActionId == actionItem.moduleActionId);
+                            actionItem.isChecked = isExits;
                         });
                     } else {
-                        this.moduleActionListFilter(moduleItem.children)
+                        this.moduleActionListFilter(moduleItem.children);
                     }
                 });
-
             },
-            getModuleActionList() {
+            getModuleList() {
                 this.list = [];
                 this.request.axiosGetModuleList(this, (moduleList) => {
-                    this.list = this.jquery.extend([], moduleList);
                     this.moduleActionListFilter(moduleList);
+                    this.list = this.jquery.extend([], moduleList);
                 });
             },
-            submitModuleActionListFilter(moduleList, submitActionList) {
-                moduleList.forEach(moduleItem => {
+            submitModuleActionFilter(moduleList, moduleActionList) {
+                moduleList.forEach((moduleItem) => {
                     if (!moduleItem.children || moduleItem.children.length == 0) {
-                        moduleItem.moduleActionList.forEach(moduleActionItem => {
-                            if (moduleActionItem.isChecked) {
-                                submitActionList.push(moduleActionItem);
-                                return;
+                        //判断该模块下的操作权限用户是否存在
+                        moduleItem.actionList.forEach(actionItem => {
+                            if (actionItem.isChecked) {
+                                moduleActionList.push(actionItem);
                             }
                         });
                     } else {
-                        this.submitModuleActionListFilter(moduleItem.children, submitActionList);
+                        this.submitModuleActionFilter(moduleItem.children, moduleActionList);
                     }
-                })
+                });
             },
             submit() {
-                let submitActionList = [];
-                this.submitModuleActionListFilter(this.list, submitActionList);
-                this.row.moduleActionList = this.jquery.extend([], submitActionList);
+                let moduleActionList = [];
+                this.submitModuleActionFilter(this.list, moduleActionList);
+                this.row.moduleActionList = this.jquery.extend([], moduleActionList);
                 this.request.axiosUserAuthPost(this, this.row, (data) => {
                     this.close();
                 });

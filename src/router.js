@@ -5,11 +5,12 @@ import Login from "./views/login/Login";
 import Register from "./views/login/Register";
 import LoginMain from "./views/login/LoginMain";
 import User from "./views/index/User/User";
-import UserLoginLog from "./views/index/UserLoginLog";
+import UserLoginLog from "./views/index/userLoginLog/UserLoginLog";
 import Module from "./views/index/module/Module";
-import Action from "./views/index/Action";
+import Action from "./views/index/action/Action";
 import Role from "./views/index/role/Role";
 import Forbidden from "./views/index/forbidden/Forbidden";
+import File from "./views/index/file/File";
 
 
 Vue.use(Router);
@@ -49,6 +50,11 @@ const router = new Router({
                     path: '/index/role',
                     name: 'index-role',
                     component: Role
+                },
+                {
+                    path: '/index/file',
+                    name: 'index-file',
+                    component: File
                 }
             ]
         },

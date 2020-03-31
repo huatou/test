@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import SimpleTable from "../../components/SimpleTable";
+    import SimpleTable from "../../../components/SimpleTable";
 
     export default {
         components: {SimpleTable},
@@ -18,7 +18,7 @@
                     },
                     {
                         label: "操作名",
-                        prop: "actionName"
+                        prop: "name"
                     },
                     {
                         label: "识别码",

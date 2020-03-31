@@ -4,7 +4,7 @@
 
 <script>
 
-    import SimpleTable from "../../components/SimpleTable";
+    import SimpleTable from "../../../components/SimpleTable";
 
     export default {
         name: "UserLoginLog",

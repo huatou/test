@@ -13,7 +13,7 @@ import store from './store'
 import router from './router'
 import global from './global'
 import request from './request'
-import util from './util'
+import tokenUtil from './tokenUtil'
 import config from "./config";
 import dialogConfirm from './components/Dialog/dialogConfirmIndex.js'
 
@@ -23,7 +23,7 @@ Vue.config.productionTip = false
 Vue.prototype.global = global
 Vue.prototype.request = request
 Vue.prototype.$axios = axios
-Vue.prototype.util = util
+Vue.prototype.tokenUtil = tokenUtil
 Vue.prototype.config = config
 Vue.prototype.jquery = jquery
 Vue.prototype.dialogConfirm = dialogConfirm

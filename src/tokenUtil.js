@@ -1,7 +1,7 @@
 const TOKEN_NAME = "zigar_token_A8X91NXU8AX18X9BO38C3H8C";
 
 
-export default {
+const tokenUtil = {
 
     setToken(token) {
         window.localStorage.setItem(TOKEN_NAME, token);
@@ -15,3 +15,5 @@ export default {
         window.localStorage.removeItem(TOKEN_NAME);
     }
 }
+
+export default tokenUtil;

@@ -7,21 +7,18 @@
             </el-form-item>
             <div style="border: 1px solid #cccccc;border-bottom: none">
                 <div style="border-bottom: 1px solid #cccccc;padding: 10px"
-                     v-for="(moduleItem,moduleItemIndex) in list" :key="moduleItemIndex">
-                    <label class="moduleNameLabel">{{moduleItem.moduleName}}</label>
+                     v-for="moduleItem in list">
+                    <label class="moduleNameLabel">{{moduleItem.name}}</label>
                     <el-checkbox v-if="!moduleItem.children || moduleItem.children.length == 0"
-                                 v-for="(moduleActionItem,moduleActionItemIndex) in moduleItem.moduleActionList"
+                                 v-for="moduleActionItem in moduleItem.actionList"
                                  :label="moduleActionItem.actionName"
-                                 :key="moduleActionItemIndex"
                                  v-model="moduleActionItem.isChecked"></el-checkbox>
-                    <div v-for="(moduleChildItem,moduleChildItemIndex ) in moduleItem.children"
-                         :key="moduleChildItemIndex">
+                    <div v-for="moduleChildItem in moduleItem.children">
                         <label class="moduleNameLabel"
-                               style="font-size: 12px">>>{{moduleChildItem.moduleName}}</label>
+                               style="font-size: 12px">>>{{moduleChildItem.name}}</label>
                         <el-checkbox
-                                v-for="(moduleActionItem,moduleActionItemIndex) in moduleChildItem.moduleActionList"
+                                v-for="moduleActionItem in moduleChildItem.actionList"
                                 :label="moduleActionItem.actionName"
-                                :key="moduleActionItemIndex"
                                 v-model="moduleActionItem.isChecked"></el-checkbox>
                     </div>
                 </div>
@@ -61,11 +58,11 @@
             moduleListFilter(moduleList) {
                 moduleList.forEach(moduleItem => {
                     if (!moduleItem.children || moduleItem.children.length == 0) {
-                        moduleItem.moduleActionList.forEach(moduleActionItem => {
+                        moduleItem.actionList.forEach(actionItem => {
                             if (this.row.moduleActionList) {
                                 this.row.moduleActionList.forEach(roleModuleActionItem => {
-                                    if (moduleActionItem.moduleActionId == roleModuleActionItem.moduleActionId) {
-                                        moduleActionItem.isChecked = true;
+                                    if (actionItem.moduleActionId == roleModuleActionItem.moduleActionId) {
+                                        actionItem.isChecked = true;
                                     }
                                 });
                             }
@@ -82,10 +79,10 @@
                     this.moduleListFilter(data);
                 });
             },
-            submitModuleActionFilter(moduleActionList, submitModuleActionList) {
-                moduleActionList.forEach(moduleItem => {
+            submitModuleActionFilter(moduleList, submitModuleActionList) {
+                moduleList.forEach(moduleItem => {
                     if (!moduleItem.children || moduleItem.children.length == 0) {
-                        moduleItem.moduleActionList.forEach(moduleActionItem => {
+                        moduleItem.actionList.forEach(moduleActionItem => {
                             if (moduleActionItem.isChecked) {
                                 submitModuleActionList.push(moduleActionItem);
                             }

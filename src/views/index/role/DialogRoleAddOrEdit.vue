@@ -2,7 +2,7 @@
     <el-dialog :title="title()" :visible.sync="visible" top="10vh">
         <el-form :model="row">
             <el-form-item label="角色名" label-width="120px">
-                <el-input v-model="row.roleName" autocomplete="off"></el-input>
+                <el-input v-model="row.name" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="角色标识" label-width="120px">
                 <el-input v-model="row.code" autocomplete="off"></el-input>

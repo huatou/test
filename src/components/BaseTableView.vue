@@ -54,7 +54,10 @@
             }
         },
         mounted() {
-            this.getList && this.getList();
+            //表示当前组件不是窗口，在组件生成后回调该方法
+            if (!this.isDialog) {
+                this.getList && this.getList();
+            }
         }
     }
 </script>

@@ -12,7 +12,7 @@
                   v-loading="tableIsLoading" default-expand-all row-key="moduleId"
                   :tree-props="{children: 'children'}" :header-cell-style="getHeaderStyle()">
             <el-table-column type="index" align="center"></el-table-column>
-            <el-table-column prop="moduleName" label="模块名称" width="160px"></el-table-column>
+            <el-table-column prop="name" label="模块名称" width="160px"></el-table-column>
             <el-table-column label="图标" width="60px" align="center">
                 <template slot-scope="scope">
                     <i :class="scope.row.icon"></i>

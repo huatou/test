@@ -5,7 +5,10 @@
                 <label style="line-height: 40px;" class="h3">{{row.parentModuleName}}</label>
             </el-form-item>
             <el-form-item label="模块名称" label-width="120px">
-                <el-input v-model="row.moduleName" autocomplete="off"></el-input>
+                <el-input v-model="row.name" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="模块编码" label-width="120px">
+                <el-input v-model="row.code" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="排序" label-width="120px">
                 <el-input v-model="row.sort" autocomplete="off"></el-input>
@@ -20,7 +23,7 @@
             <el-form-item label="操作项" label-width="120px" style="line-height: 48px" v-loading="tableIsLoading">
                 <el-checkbox :v-loading="tableIsLoading"
                              v-for="(actionItem,actionItemIndex) in actionList"
-                             :label="actionItem.actionName"
+                             :label="actionItem.name"
                              v-model="actionItem.isChecked"
                              :key="actionItemIndex" border style="margin-right: 10px"></el-checkbox>
             </el-form-item>
@@ -63,17 +66,14 @@
             getActionList() {
                 this.actionList = [];
                 this.request.axiosGetActionList(this, (actionList) => {
-                    // actionList.map(actonItem => {
-                    //     actonItem.isChecked = this.row.moduleActionList.some(moduleActionItem => {
-                    //         return actonItem.actionId == moduleActionItem.actionId;
-                    //     });
-                    // });
                     actionList.forEach(actonItem => {
-                        this.row.moduleActionList.forEach(moduleActionItem => {
-                            if (actonItem.actionId == moduleActionItem.actionId) {
-                                actonItem.isChecked = true;
-                            }
-                        });
+                        if (this.row.actionList) {
+                            this.row.actionList.forEach(moduleActionItem => {
+                                if (actonItem.actionId == moduleActionItem.actionId) {
+                                    actonItem.isChecked = true;
+                                }
+                            });
+                        }
                     });
                     this.actionList = this.jquery.extend([], actionList);
                     this.tableIsLoading = false;

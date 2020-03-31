@@ -12,7 +12,7 @@
                   v-loading="tableIsLoading" default-expand-all row-key="moduleId"
                   :header-cell-style="getHeaderStyle()">
             <el-table-column type="index" align="center"></el-table-column>
-            <el-table-column prop="roleName" label="角色名" width="160px" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="name" label="角色名" width="160px" show-overflow-tooltip></el-table-column>
             <el-table-column prop="code" label="角色标识" width="160px"></el-table-column>
             <el-table-column prop="sort" label="排序" width="160px"></el-table-column>
             <el-table-column prop="createTime" label="创建时间"></el-table-column>

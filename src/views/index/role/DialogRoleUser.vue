@@ -18,7 +18,7 @@
                 <el-table-column width="100px" label="操作">
                     <template slot-scope="scope">
                         <el-button type="danger" size="mini" icon="el-icon-edit-outline"
-                                   @click="remove(scope.row)">
+                                   @click="removeCustom(scope.row)">
                             删除
                         </el-button>
                     </template>
@@ -57,12 +57,12 @@
             }
         },
         methods: {
-            getData() {
+            getList() {
                 this.tableIsLoading = true;
                 const queryModel = this.jquery.extend({
                     roleId: this.row.roleId
                 }, this.queryModel)
-                this.request.axiosGetData(this, this.module, queryModel, (data) => {
+                this.request.axiosRoleUserGet(this, queryModel, (data) => {
                     this.tableIsLoading = false;
                     this.queryModel.total = data.total;
                     this.list = data.list;
@@ -80,9 +80,13 @@
                         });
                     });
                     this.request.axiosRoleUserPost(this, roleUserList, () => {
-                        this.getData();
+                        this.getList();
                     });
                 });
+            },
+            removeCustom(row) {
+                this.jquery.extend(row, {roleId: this.row.roleId});
+                this.remove(row);
             }
         }
     }

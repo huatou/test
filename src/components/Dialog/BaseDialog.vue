@@ -11,6 +11,7 @@
         extends: BaseTableView,
         data() {
             return {
+                isDialog: true,
                 visible: false,
                 row: {}
             }
@@ -33,6 +34,8 @@
             visible() {
                 if (this.visible) {
                     this.getData && this.getData();
+                    //在窗口也是列表时使用
+                    this.getList && this.getList();
                 }
             }
         }
