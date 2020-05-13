@@ -29,10 +29,10 @@
                     <el-button type="warning" size="mini" icon="el-icon-edit-outline"
                                @click="showAddOrEditDialog(scope.row)">编辑
                     </el-button>
-                    <el-button type="danger" size="mini" icon="el-icon-delete" @click="remove(scope.row)">删除
+                    <el-button type="danger" size="mini" icon="el-icon-delete" @click="remove(scope.row.moduleId)">删除
                     </el-button>
-                    <el-button type="primary" size="mini"
-                               icon="el-icon-plus" @click="showAddOrEditDialog(scope.row,true)">
+                    <el-button type="primary" size="mini" icon="el-icon-plus"
+                               @click="showAddOrEditDialog(scope.row,true)">
                         新增子模块
                     </el-button>
                 </template>
@@ -68,11 +68,11 @@
         methods: {
             getList() {
                 this.tableIsLoading = true;
-                this.request.axiosGetData(this, this.module, this.queryModel, (data) => {
+                this.request.axiosGetModuleList(this, this.queryModel, (data) => {
                     this.tableIsLoading = false;
                     this.queryModel.total = data.total;
-                    this.list = data.list;
-                }, (response) => {
+                    this.list = data.records;
+                }, (error) => {
                     this.tableIsLoading = false;
                 });
             },

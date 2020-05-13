@@ -21,7 +21,7 @@
                     <el-button type="warning" size="mini" icon="el-icon-edit-outline"
                                @click="showDialogAddOrEdit(scope.row)">编辑
                     </el-button>
-                    <el-button type="danger" size="mini" icon="el-icon-delete" @click="remove(scope.row)">删除
+                    <el-button type="danger" size="mini" icon="el-icon-delete" @click="remove(scope.row.roleId)">删除
                     </el-button>
                     <el-button type="info" size="mini" plain icon="el-icon-lock" @click="showRoleAuthDialog(scope.row)">
                         权限配置
@@ -68,10 +68,10 @@
         methods: {
             getList() {
                 this.tableIsLoading = true;
-                this.request.axiosGetData(this, this.module, this.queryModel, (data) => {
+                this.request.axiosGetRoleList(this,this.queryModel, (data) => {
                     this.tableIsLoading = false;
                     this.queryModel.total = data.total;
-                    this.list = data.list;
+                    this.list = data.records;
                 }, (response) => {
                     this.tableIsLoading = false;
                 });

@@ -68,10 +68,10 @@
         methods: {
             getList() {
                 this.tableIsLoading = true;
-                this.request.axiosGetData(this, this.module, this.queryModel, (data) => {
+                this.request.axiosGetUserList(this, this.queryModel, (data) => {
                     this.tableIsLoading = false;
                     this.queryModel.total = data.total;
-                    this.list = data.list;
+                    this.list = data.records;
                 }, (response) => {
                     this.tableIsLoading = false;
                 });
@@ -86,10 +86,18 @@
             },
             showUserAuthDialog(row) {
                 this.$refs.DialogUserAuth.show(row);
+            },
+            remove(row) {
+                this.dialogConfirm("确定要删除此记录吗？", () => {
+                    this.request.axiosDeleteUser(this, row, (data) => {
+                        this.getList();
+                    }, (response) => {
+                        alert("删除失败");
+                    });
+                });
             }
         },
     }
-
 
 </script>
 

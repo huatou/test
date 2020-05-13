@@ -23,9 +23,8 @@
         },
         methods: {
             logout: function () {
-                this.request.axiosLogout(this, (data) => {
-                    window.location = "/login-main/login";
-                });
+                this.$store.commit('setToken', null);
+                window.location = "/login-main/login";
             }
         }
     }

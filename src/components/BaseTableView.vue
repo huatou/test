@@ -39,14 +39,15 @@
                 }
             },
             //调用当前模块的删除方法
-            remove(row) {
+            remove(id) {
                 this.dialogConfirm("确定要删除此记录吗？", () => {
-                    this.request.axiosDeleteData(this, this.module, row, () => {
+                    this.request.axiosDeleteData(this, this.module, id, () => {
                         this.getList();
                     });
                 });
             }
-        },
+        }
+        ,
         watch: {
             //监听关键字改变的回调函数
             "queryModel.keyword": function () {

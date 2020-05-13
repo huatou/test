@@ -32,11 +32,11 @@
         methods: {
             submit() {
                 if (this.row.userId) {
-                    this.request.axiosPutData(this, this.module, this.row, (data) => {
+                    this.request.axiosUpdateUser(this, this.row, (data) => {
                         this.close();
                     });
                 } else {
-                    this.request.axiosPostData(this, this.module, this.row, (data) => {
+                    this.request.axiosInsertUser(this, this.row, (data) => {
                         this.close();
                     });
                 }

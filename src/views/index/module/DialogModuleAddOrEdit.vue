@@ -1,5 +1,5 @@
 <template>
-    <el-dialog :title="title()" :visible.sync="visible" v-if="row" top="10vh">
+    <el-dialog title="新增模块" :visible.sync="visible" v-if="row" top="10vh">
         <el-form :model="row">
             <el-form-item v-if="row.isChild" label="父模块名称" label-width="120px">
                 <label style="line-height: 40px;" class="h3">{{row.parentModuleName}}</label>
@@ -20,12 +20,28 @@
                 <el-input v-model="row.icon" autocomplete="off" class="float-left w-25"></el-input>
                 <i :class="row.icon" class="el-button ml-2" style="height: 40px"></i>
             </el-form-item>
-            <el-form-item label="操作项" label-width="120px" style="line-height: 48px" v-loading="tableIsLoading">
-                <el-checkbox :v-loading="tableIsLoading"
-                             v-for="(actionItem,actionItemIndex) in actionList"
-                             :label="actionItem.name"
-                             v-model="actionItem.isChecked"
-                             :key="actionItemIndex" border style="margin-right: 10px"></el-checkbox>
+            <el-form-item label="操作项" label-width="120px">
+                <el-table v-show="row.actionList && row.actionList.length!=0" class="tableBox" :data="row.actionList" border width="100%" size="mini">
+                    <el-table-column type="index" align="center"></el-table-column>
+                    <el-table-column prop="name" label="操作项名称" width="160px">
+                        <template slot-scope="scope">
+                            <el-input v-model="scope.row.name"></el-input>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="code" label="操作项编码" width="160px">
+                        <template slot-scope="scope">
+                            <el-input v-model="scope.row.code"></el-input>
+                        </template>
+                    </el-table-column>
+                    <el-table-column width="360px" label="操作">
+                        <template slot-scope="scope">
+                            <el-button type="danger" size="mini" icon="el-icon-delete" @click="removeOne(scope.$index)">
+                                删除
+                            </el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <el-button type="primary" @click="addOne()" icon="el-icon-plus" size="mini">增加一行</el-button>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -42,70 +58,32 @@
         name: "DialogModuleAddOrEdit",
         extends: BaseDialog,
         data() {
-            return {
-                module: 'module',
-                actionList: []
-            }
+            return {}
         },
         methods: {
-            getData() {
-                if (this.row.moduleId) {
-                    let params = {moduleId: this.row.moduleId};
-                    this.request.axiosGetData(this, this.module, params, (data) => {
-                        if (data) {
-                            this.jquery.extend(this.row, data);
-                            this.getActionList();
-                        } else {
-                            alert("获取模块详情失败")
-                        }
-                    });
-                } else {
-                    this.getActionList();
+            addOne() {
+                if (!this.row.actionList) {
+                    this.row.actionList = [];
                 }
+                this.row.actionList.push({});
+                this.$forceUpdate();
             },
-            getActionList() {
-                this.actionList = [];
-                this.request.axiosGetActionList(this, (actionList) => {
-                    actionList.forEach(actonItem => {
-                        if (this.row.actionList) {
-                            this.row.actionList.forEach(moduleActionItem => {
-                                if (actonItem.actionId == moduleActionItem.actionId) {
-                                    actonItem.isChecked = true;
-                                }
-                            });
-                        }
-                    });
-                    this.actionList = this.jquery.extend([], actionList);
-                    this.tableIsLoading = false;
-                }, (error) => {
-                    this.tableIsLoading = false;
-                });
+            removeOne(index) {
+                if (!this.row.actionList) {
+                    this.row.actionList = [];
+                }
+                this.row.actionList.splice(index, 1);
+                this.$forceUpdate();
             },
             submit() {
-                this.row.actionList = [];
-                this.actionList.forEach((actionItem) => {
-                    if (actionItem.isChecked) {
-                        this.row.actionList.push(actionItem);
-                    }
-                });
                 if (this.row.moduleId) {
-                    this.request.axiosPutData(this, this.module, this.row, (data) => {
+                    this.request.axiosInsertModule(this, this.row, (data) => {
                         this.close();
                     });
                 } else {
-                    this.request.axiosPostData(this, this.module, this.row, (data) => {
+                    this.request.axiosUpdateModule(this, this.row, (data) => {
                         this.close();
                     });
-                }
-            },
-            title: function () {
-                if (this.row.moduleId) {
-                    if (this.row.isChild) {
-                        return "新增子模块";
-                    }
-                    return "编辑";
-                } else {
-                    return "新增";
                 }
             }
         }

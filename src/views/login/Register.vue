@@ -34,7 +34,7 @@
         },
         methods: {
             submitRegister: function () {
-                this.$axios.post(this.global.SERVER_PATH + this.requestUrl.REGISTER, this.registerModel)
+                this.$axios.post(this.global.HOST_PATH + this.requestUrl.REGISTER, this.registerModel)
                     .then(function (response) {
                         console.log(response);
                     })

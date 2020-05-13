@@ -5,6 +5,8 @@
         <el-form class="formBox" :model="loginModel" label-width="80px">
             <el-input v-model="loginModel.username" placeholder="用户名"></el-input>
             <el-input v-model="loginModel.password" placeholder="密码"></el-input>
+            <el-image v-show="imageCodePicSrc" :src="imageCodePicSrc"></el-image>
+            <el-input v-show="imageCodePicSrc" v-model="loginModel.captcha" placeholder="验证码"></el-input>
             <el-button type="primary" @click="submitLogin">登录</el-button>
             <router-link to="/login-main/register" class="registerBox">
                 <el-button type="primary">注册</el-button>
@@ -23,9 +25,10 @@
         data() {
             return {
                 loginModel: {
-                    username: null,
-                    password: null
-                }
+                    username: "huatou",
+                    password: "123"
+                },
+                imageCodePicSrc: null
             }
         },
         methods: {
@@ -38,8 +41,10 @@
                 //
                 //
                 this.request.axiosLogin(this, this.loginModel, (data) => {
-                    this.tokenUtil.setToken(data);
+                    this.$store.commit('setToken', data);
                     this.$router.push('/')
+                }, (error) => {
+                    this.imageCodePicSrc = error.data.data;
                 });
             }
         }
