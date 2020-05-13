@@ -68,7 +68,7 @@
         methods: {
             getList() {
                 this.tableIsLoading = true;
-                this.request.axiosGetRoleList(this,this.queryModel, (data) => {
+                this.request.axiosGetRoleList(this, this.queryModel, (data) => {
                     this.tableIsLoading = false;
                     this.queryModel.total = data.total;
                     this.list = data.records;

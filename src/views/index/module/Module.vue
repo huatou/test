@@ -29,7 +29,7 @@
                     <el-button type="warning" size="mini" icon="el-icon-edit-outline"
                                @click="showAddOrEditDialog(scope.row)">编辑
                     </el-button>
-                    <el-button type="danger" size="mini" icon="el-icon-delete" @click="remove(scope.row.moduleId)">删除
+                    <el-button type="danger" size="mini" icon="el-icon-delete" @click="remove(scope.row)">删除
                     </el-button>
                     <el-button type="primary" size="mini" icon="el-icon-plus"
                                @click="showAddOrEditDialog(scope.row,true)">
@@ -87,6 +87,15 @@
                 }
                 this.$refs.DialogModuleAddOrEdit.show(model, () => {
                     this.getList();
+                });
+            },
+            remove(row) {
+                this.dialogConfirm("确定要删除此记录吗？", () => {
+                    this.request.axiosDeleteModule(this, row, (data) => {
+                        this.getList();
+                    }, (response) => {
+                        alert("删除失败");
+                    });
                 });
             }
         }

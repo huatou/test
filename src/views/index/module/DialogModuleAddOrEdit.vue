@@ -20,8 +20,15 @@
                 <el-input v-model="row.icon" autocomplete="off" class="float-left w-25"></el-input>
                 <i :class="row.icon" class="el-button ml-2" style="height: 40px"></i>
             </el-form-item>
+            <el-form-item label="是否可用">
+                <el-select v-model="row.isEnabled" placeholder="是否可用">
+                    <el-option label="可用" value="1"></el-option>
+                    <el-option label="不可用" value="0"></el-option>
+                </el-select>
+            </el-form-item>
             <el-form-item label="操作项" label-width="120px">
-                <el-table v-show="row.actionList && row.actionList.length!=0" class="tableBox" :data="row.actionList" border width="100%" size="mini">
+                <el-table v-show="row.actionList && row.actionList.length!=0" class="tableBox" :data="row.actionList"
+                          border width="100%" size="mini">
                     <el-table-column type="index" align="center"></el-table-column>
                     <el-table-column prop="name" label="操作项名称" width="160px">
                         <template slot-scope="scope">
@@ -76,7 +83,7 @@
                 this.$forceUpdate();
             },
             submit() {
-                if (this.row.moduleId) {
+                if (!this.row.moduleId) {
                     this.request.axiosInsertModule(this, this.row, (data) => {
                         this.close();
                     });

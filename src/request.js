@@ -106,7 +106,6 @@ const LOGOUT = "/logout";
 const REGISTER = "/user/register";
 
 const USER = "/user";
-const USER_INFO = "/user/current";
 const CHANGE_PWD = "/user/change-pwd";
 const USER_AUTH = "/user/auth";
 const ROLE_AUTH = "/role/auth";
@@ -149,7 +148,7 @@ export default {
         axiosPostData(vue, LOGOUT, null, onSuccess, onError);
     },
     axiosGetCurrentUser(vue, onSuccess, onError) {
-        axiosGetData(vue, USER_INFO, null, onSuccess, onError);
+        axiosGetData(vue, USER, {userId: 'current'}, onSuccess, onError);
     },
     axiosGetUserList(vue, params, onSuccess, onError) {
         axiosGetData(vue, USER, params, onSuccess, onError);
@@ -200,6 +199,9 @@ export default {
     },
     axiosUpdateModule(vue, data, onSuccess, onError) {
         axiosPutData(vue, MODULE, data, onSuccess, onError);
+    },
+    axiosDeleteModule(vue, data, onSuccess, onError) {
+        axiosDeleteData(vue, MODULE, data, onSuccess, onError);
     },
     axiosGetActionList(vue, params, onSuccess, onError) {
         axiosGetData(vue, ACTION, params, onSuccess, onError);
