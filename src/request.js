@@ -116,6 +116,7 @@ const ROLE_USER_LIST = "/role-user/list";
 const ROLE = "/role";
 const MODULE = "/module";
 const ACTION = "/action";
+const ACTION_DEFAULT = ACTION + "/default";
 const MENU = "/menu";
 
 
@@ -203,8 +204,8 @@ export default {
     axiosDeleteModule(vue, data, onSuccess, onError) {
         axiosDeleteData(vue, MODULE, data, onSuccess, onError);
     },
-    axiosGetActionList(vue, params, onSuccess, onError) {
-        axiosGetData(vue, ACTION, params, onSuccess, onError);
+    axiosGetDefaultActionList(vue, params, onSuccess, onError) {
+        axiosGetData(vue, ACTION_DEFAULT, params, onSuccess, onError);
     },
     axiosGetMenu(vue, params, onSuccess, onError) {
         axiosGetData(vue, MENU, params, onSuccess, onError);

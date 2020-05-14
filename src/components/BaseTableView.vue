@@ -46,8 +46,7 @@
                     });
                 });
             }
-        }
-        ,
+        },
         watch: {
             //监听关键字改变的回调函数
             "queryModel.keyword": function () {
